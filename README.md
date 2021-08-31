@@ -18,12 +18,19 @@ The AgentAPI is organized as follows:
 Message Schemas
 ---------------
   GenericRequest            - Used for testing requests without a defined payload
+  
   InquiryRequest            - Requests answers to simple questions about policies and practices
+  
   AccessRequest             - Requests disclosure of personal data collected
+  
   RectifyRequest            - Requests correction of personal data collected
+  
   RestrictProcessingRequest - Requests restrictions on processing personal data (typically with third-parties)
+  
   UnsubscribeRequest        - Requests unsubscribe from all or specific subscriptions
+  
   OptOutRequest             - Requests opting out from sharing, transfer, or sale of personal data
+  
   DeleteRequest             - Requests deletion of personal data, and/or online accounts
   
 Each of these schemas contain a request and a response message.
