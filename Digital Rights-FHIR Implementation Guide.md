@@ -278,6 +278,7 @@ It can be used as a template, with data elements from a set of resources referen
 Think of the narrrative as a "representation layer", or stylesheet applied to underlying data elements from a set of resources. As a simple guidance principle, the narrative should represent ALL the raw data if not used as a template for discrete data. 
 
 The narrative SHOULD NOT mix raw data not contained elsewhere AND raw data referenced from resource variables. If the raw data requires different levels of confidentiality or consent, use multiple sections to segment the narrative in accordance with the appropriate level of confidentiality or consent required.
+	
 ============================
 ### Topic: FHIR Interfaces
 
@@ -316,6 +317,7 @@ Because there is no current standard for a Digital Rights or AgentAPI, it's nece
 Responses to the Access Request from the Organization can be validated against the appropriate Response message, document, or service.
 FHIR does not define interfaces for other transport protocols such as SMTP, telephony, or webforms,
 but these methods are needed in order to exercise privacy rights over the "proper channels" dictated by the Organization.
+	
 ============================
 ### Topic: FHIR Clinical Resources
 
@@ -338,6 +340,7 @@ Clinical & Care provision -> The privacy rights which are "covered" by legislati
 Diagnostics               -> The privacy "issues" being addressed through privacy rights requests.
 Medications               -> The remediations planned or prescribed to correct violations.
 Administrative            -> The personal constraints or preferences used to process requests or manage vendors.
+
 ============================
 ### Topic: FHIR Developers Overview
 
@@ -734,6 +737,7 @@ language (line 18) - The base language of the resource. The resource is allowed 
 **Digital Rights implementation**
 
 No specific guidance provided at this time.
+	
 ============================
 ### Topic: FHIR Security and Privacy Module
 
@@ -806,7 +810,8 @@ In a simple use case of a DataSubject accessing their personal information from 
 The basic flow of the use case is that:
 - the DataSubject and AuthorizedAgent registers (if required), 
 - logs in, 
-- retrieves personal data elements for the DataSubject from the PII repository's API and supplies these as parameters to the FHIR API to populate account or identity verification forms for the DataSubject. 
+- retrieves personal data elements for the DataSubject from the PII repository's API and supplies these as parameters to the FHIR API to populate account or identity verification forms for the DataSubject.
+	
 ============================
 ### Topic: FHIR Mapping Language
 
@@ -829,6 +834,7 @@ A map has 6 parts:
 **Digital Rights implementation**
 	
 The Mapping Language has a status of "Trial Use", which has potential but is not implemented at this time.
+
 ============================
 ### Topic: FHIR Medications Module
 
@@ -862,6 +868,7 @@ Immunization -> Exemption
 ImmunizationEvaluation -> A set of factors used to evaluate exemption status.
 
 ImmunizationRecommendation -> Action(s) to take when a Resource is exempt from complying with privacy laws.
+	
 ============================
 ### Topic: FHIR Clinical Safety
 
@@ -947,6 +954,7 @@ For Servers:
 **Digital Rights implementation**
 	
 In this AgentAPI, we assign the Safety Checklist to our virtual Auditor, which is represented by the VGS Control API. The checklist described above represent some of the parameters or rulesets from FHIR resources that could be sent for processing by the VGS Control API. 
+
 ============================
 ### Topic: FHIR Search
 
@@ -973,6 +981,7 @@ Note that search parameter names are case sensitive, though this specification n
 **Digital Rights implementation**
 	
 This section will be updated after initial baseline tests on Search is complete.
+	
 ============================
 ### Topic: Testing FHIR
 
@@ -1001,6 +1010,7 @@ The TestScript resource contains:
 **Digital Rights implementation**
 	
 This section will be updated after initial baseline tests using TestScript is complete.
+
 ======================================
 ### OTHER FHIR RESOURCES AND ARTIFACTS USED IN DIGITAL RIGHTS
 
