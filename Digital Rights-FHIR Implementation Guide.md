@@ -4,7 +4,6 @@
 ### Topic: Architectual Overview
 
 **FHIR implementation**
-
 At its core, FHIR contains two primary components:
 
 Resources - a collection of information models that define the data elements, constraints and relationships 
@@ -24,7 +23,6 @@ methods and interface signatures for FHIR-aware APIs, and specifications for the
 capable of requesting and delivering FHIR business objects.
 
 **Digital Rights implementation**
------------------------------
 FHIR architecture's separation of content (resources) from process (APIs) makes possible adapting this framework for digital rights processes.
 Process is not limited to the restful API: FHIR supports a wide variety of transport protocols in addition to HTTP, and its resources are designed to support without hard dependencies, a wide variety of implementation and storage options.
 Likewise, Digital Rights can be composed as structured Requests and Responses which represent 
@@ -39,7 +37,6 @@ The minimum resources for a digital rights privacy process are:
 ### Topic: Specification Overview
 
 **FHIR implementation**
--------------------
 The base FHIR specification (this specification) describes a set of base resources, frameworks and APIs that are used in healthcare. 
 Due to wide variability between jurisdictions and across the healthcare ecosystem around practices, requirements, regulations, education, not every action or resource is feasible and/or beneficial.
 
@@ -62,9 +59,7 @@ FHIR defines a cascade of artifacts for this purpose:
 4) Profile: A set of constraints on a resource represented as a structure definition with kind = constraint	
 						DAF Medication Request is an example of a Profile that defines constraints and extensions on the MedicationRequest resource for the minimal set of data to query and retrieve prescription information.
 
-
 **Digital Rights implementation**
------------------------------
 Privacy laws and procedures, like healthcare, are also widely vary in content and process around the world.
 Even if this were not the case, each party's implementation of a digital rights specification would differ:
 not every party has the same technical capabilities, nor do they all support the same resources.
@@ -77,10 +72,9 @@ Instead of a DAF Problem Value Set for healthcare adaptations, a Digital Rights 
 A Profile is used as a set of constraints on a resource such a Person, Organization, or Practitioner.
 Person and Organization are nouns representing two different things. A Practitioner is an adjective used to describe a Resource, such as a Person or an Organization. Profiles are well-suited to define the contextual roles of these resources, and the constraints and extensions on their structure and use. A Profile could also govern a selected resource such as a RemediationRequest, represented as a structure definition with kind = constraint.	
 ============================
-###Topic: Framework Overview
+### Topic: Framework Overview
 
 **FHIR implementation**
--------------------
 Foundation Resources:	Foundation resources are the most rudimentary, foundational resources. They are often used for infrastructural tasks. Although not prohibited, they are not always referenced by other resources.
 
 Base Resources:	Layer 2 consists of base resources. These are often the leaf nodes of a resource graph. In other words, they are often referenced by other resources, but don't typically reference other resources themselves. 
@@ -94,7 +88,6 @@ Specialized Resources: In layer 5, we find more specialized resources for less c
 Resource Contextualization: Layer 6 does not contain resources. However, it does extend the composition framework made up by the first five layers of resources. Layer 6 includes profiles and graphs. 
 
 **Digital Rights implementation**
------------------------------
 Foundation Resources in Layer 1 SHALL NOT BE MODIFIED.
 
 Base Resources in Layer 2 MAY BE MODIFIED, but SHOULD BE extended by reference whenever feasible.
@@ -120,7 +113,7 @@ Specialized Resources in layer 5, and Resource Contextualization in Layer 6 is w
     ExplanationOfBenefit - In FHIR this resource is used for the claim details; adjudication details from the processing of a Claim; and optionally account balance information, for informing the subscriber of the benefits provided. In DR, this resource is used to record complaint details, investigation findings, evidence considered, and actions taken by the enforcement authority.
     VisionPrescription - In FHIR this is used as an authorization for the provision of glasses and/or contact lenses to a patient, but in DR, this resource is used as an authorization for the individual's agent.
 ============================
-###Topic: REST API Overview
+### Topic: REST API Overview
 
 **FHIR implementation**
 -------------------
