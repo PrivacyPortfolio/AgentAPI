@@ -4,6 +4,7 @@
 ### Topic: Architectual Overview
 
 **FHIR implementation**
+
 At its core, FHIR contains two primary components:
 
 Resources - a collection of information models that define the data elements, constraints and relationships 
@@ -23,6 +24,7 @@ methods and interface signatures for FHIR-aware APIs, and specifications for the
 capable of requesting and delivering FHIR business objects.
 
 **Digital Rights implementation**
+
 FHIR architecture's separation of content (resources) from process (APIs) makes possible adapting this framework for digital rights processes.
 Process is not limited to the restful API: FHIR supports a wide variety of transport protocols in addition to HTTP, and its resources are designed to support without hard dependencies, a wide variety of implementation and storage options.
 Likewise, Digital Rights can be composed as structured Requests and Responses which represent 
@@ -1249,4 +1251,4 @@ This section will be updated after initial baseline tests using TestScript is co
       <xs:documentation xml:lang="en">An authorization for the provision of glasses and/or contact lenses to a patient.</xs:documentation>
     </xs:element>
   
-##END OF IMPEMENTATION GUIDE
+## END OF IMPEMENTATION GUIDE
