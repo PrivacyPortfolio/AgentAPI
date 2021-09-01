@@ -75,6 +75,7 @@ Instead of a DAF Problem Value Set for healthcare adaptations, a Digital Rights 
 
 A Profile is used as a set of constraints on a resource such a Person, Organization, or Practitioner.
 Person and Organization are nouns representing two different things. A Practitioner is an adjective used to describe a Resource, such as a Person or an Organization. Profiles are well-suited to define the contextual roles of these resources, and the constraints and extensions on their structure and use. A Profile could also govern a selected resource such as a RemediationRequest, represented as a structure definition with kind = constraint.	
+
 ============================
 ### Topic: Framework Overview
 
@@ -118,6 +119,7 @@ Specialized Resources in layer 5, and Resource Contextualization in Layer 6 is w
     PaymentReconciliation - used to record the Organization's response to a complaint or lawsuit.
     ExplanationOfBenefit - In FHIR this resource is used for the claim details; adjudication details from the processing of a Claim; and optionally account balance information, for informing the subscriber of the benefits provided. In DR, this resource is used to record complaint details, investigation findings, evidence considered, and actions taken by the enforcement authority.
     VisionPrescription - In FHIR this is used as an authorization for the provision of glasses and/or contact lenses to a patient, but in DR, this resource is used as an authorization for the individual's agent.
+
 ============================
 ### Topic: REST API Overview
 
@@ -206,6 +208,7 @@ Its aim is to assist with system troubleshooting.
 An Authorized Agent could use this header to correlate requests and responses for multiple clients 
 (group of DataSubjects authorizing Agent to act on their behalf), act as a proxy by forwarding messages to the intended endpoint, and/or act as an interface engine to alter headers and content.
 This is in direct conflict with FHIR's mandate that "End point systems SHALL NOT use this header for any purpose."
+
 ============================
 ### Topic: REST API Transactions
 
@@ -227,6 +230,7 @@ This loosely-coupled artifact allows external systems to process and track the s
 These transactions are used for MVP(minimally viable product) implementations.
 This Implementation Guide, along with Conformance Resources and Profiles, are used to specify and validate fields required in Digital Rights implementations, such as <identifier>, <timestamp>, <total> and <entry>.
 Underlying FHIR base schemas, such as Bundle.xsd are NEVER MODIFIED.
+
 ============================
 ### Topic: FHIR Extensibility and Profiling
 
@@ -245,6 +249,7 @@ To support setting rules for more narrow areas (e.g. "What should I send if I wa
 **Digital Rights implementation**
 	
 Privacy rights requests must be usable in different countries, jurisdictions, and by different types of privacy mandates in different contexts (GDPR, COPPA, CCPA, etc.). Recognizing that a one size fits all approach is not appropriate in the privacy eco-sphere, FHIR provides the ability to adjust the forms (Resources) to be able to handle the needs of different implementations used by organizations to comply with a similar requirement or a completely different requirement, by defining "extensions" as well as enforcing constraints. 
+
 ============================
 ### Topic: FHIR Narrative
 
