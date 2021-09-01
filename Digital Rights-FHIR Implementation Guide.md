@@ -1084,13 +1084,12 @@ This section will be updated after initial baseline tests using TestScript is co
   
     <!-- typically used for any IoT device subject to privacy law or VendorPolicy -->
     <xs:element name="Device" type="Device">
-      <xs:documentation xml:lang="en">A type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity. The device may be a medical or non-medical device  .</xs:documentation>
+      <xs:documentation xml:lang="en">A type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity. The device may be a medical or non-medical device.</xs:documentation>
     </xs:element>
   
     <!-- used to detail technical specifications, configuration settings, etc. of the Device  -->
     <xs:element name="DeviceDefinition" type="DeviceDefinition">
-      <xs:documentation xml:lang="en">The characteristics, operational status and capabilities of a medical-related component of a medical device.</xs:documentation>
-  </xs:element>
+      <xs:documentation xml:lang="en">The characteristics, operational status and capabilities of a medical-related component of a medical device.</xs:documentation>	     </xs:element>
 
     <!-- used to document the stated purpose of the Device  -->
     <xs:element name="DeviceUseStatement" type="DeviceUseStatement">
@@ -1230,10 +1229,10 @@ This section will be updated after initial baseline tests using TestScript is co
       in a population plus exposure state where the risk estimate is derived from a combination of research studies.</xs:documentation>
     </xs:element>
 
-  <!-- no modification  -->
-  <xs:element name="SearchParameter" type="SearchParameter">
+    <!-- no modification  -->
+    <xs:element name="SearchParameter" type="SearchParameter">
       <xs:documentation xml:lang="en">A search parameter that defines a named search item that can be used to search/filter on a resource.</xs:documentation>
-  </xs:element>
+    </xs:element>
 
     <!-- used to identify actual services or information pushed from Vendor to DataSubject  -->
     <xs:element name="Subscription" type="Subscription">
