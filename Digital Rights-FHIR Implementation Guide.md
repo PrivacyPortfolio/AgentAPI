@@ -1,6 +1,6 @@
 ## FHIR IMPLEMENTATION GUIDELINE FOR DIGITAL RIGHTS 
 
-============================
+===================================================
 ### Topic: Architectual Overview
 
 **FHIR implementation**
@@ -39,6 +39,7 @@ The minimum resources for a digital rights privacy process are:
 ### Topic: Specification Overview
 
 **FHIR implementation**
+
 The base FHIR specification (this specification) describes a set of base resources, frameworks and APIs that are used in healthcare. 
 Due to wide variability between jurisdictions and across the healthcare ecosystem around practices, requirements, regulations, education, not every action or resource is feasible and/or beneficial.
 
@@ -62,6 +63,7 @@ FHIR defines a cascade of artifacts for this purpose:
 						DAF Medication Request is an example of a Profile that defines constraints and extensions on the MedicationRequest resource for the minimal set of data to query and retrieve prescription information.
 
 **Digital Rights implementation**
+
 Privacy laws and procedures, like healthcare, are also widely vary in content and process around the world.
 Even if this were not the case, each party's implementation of a digital rights specification would differ:
 not every party has the same technical capabilities, nor do they all support the same resources.
@@ -77,6 +79,7 @@ Person and Organization are nouns representing two different things. A Practitio
 ### Topic: Framework Overview
 
 **FHIR implementation**
+
 Foundation Resources:	Foundation resources are the most rudimentary, foundational resources. They are often used for infrastructural tasks. Although not prohibited, they are not always referenced by other resources.
 
 Base Resources:	Layer 2 consists of base resources. These are often the leaf nodes of a resource graph. In other words, they are often referenced by other resources, but don't typically reference other resources themselves. 
@@ -90,6 +93,7 @@ Specialized Resources: In layer 5, we find more specialized resources for less c
 Resource Contextualization: Layer 6 does not contain resources. However, it does extend the composition framework made up by the first five layers of resources. Layer 6 includes profiles and graphs. 
 
 **Digital Rights implementation**
+
 Foundation Resources in Layer 1 SHALL NOT BE MODIFIED.
 
 Base Resources in Layer 2 MAY BE MODIFIED, but SHOULD BE extended by reference whenever feasible.
@@ -118,7 +122,7 @@ Specialized Resources in layer 5, and Resource Contextualization in Layer 6 is w
 ### Topic: REST API Overview
 
 **FHIR implementation**
--------------------
+
 A FHIR REST server is any software that implements the FHIR APIs and uses FHIR resources to exchange data. 
 The diagram below describes the FHIR interface definitions. The methods are classified as:
 
@@ -198,15 +202,15 @@ End point systems SHALL NOT use this header for any purpose.
 Its aim is to assist with system troubleshooting. 
 
 **Digital Rights implementation**
------------------------------
+
 An Authorized Agent could use this header to correlate requests and responses for multiple clients 
 (group of DataSubjects authorizing Agent to act on their behalf), act as a proxy by forwarding messages to the intended endpoint, and/or act as an interface engine to alter headers and content.
 This is in direct conflict with FHIR's mandate that "End point systems SHALL NOT use this header for any purpose."
 ============================
-###Topic: REST API Transactions
+### Topic: REST API Transactions
 
 **FHIR implementation**
--------------------
+
 As mentioned, FHIR resources are optimized for stateless transactions with RESTful APIs. 
 Although this is not the only way FHIR resources can be used, these types of transactions are the only ones with defined interfaces and behaviors in the FHIR specification.
 
@@ -219,15 +223,15 @@ The FHIR specification only requires the 'type' attribute of a Bundle, which pro
 This loosely-coupled artifact allows external systems to process and track the state of these Bundle transactions according to rules specified within the Bundle payload content or from external systems.  
 
 **Digital Rights implementation**
------------------------------
+	
 These transactions are used for MVP(minimally viable product) implementations.
 This Implementation Guide, along with Conformance Resources and Profiles, are used to specify and validate fields required in Digital Rights implementations, such as <identifier>, <timestamp>, <total> and <entry>.
 Underlying FHIR base schemas, such as Bundle.xsd are NEVER MODIFIED.
 ============================
-###Topic: FHIR Extensibility and Profiling
+### Topic: FHIR Extensibility and Profiling
 
 **FHIR implementation**
--------------------
+	
 Recognizing that a one size fits all approach is not appropriate in the healthcare space, FHIR provides the ability to adjust the forms (Resources) to be able to handle the needs of different implementation spaces by defining "extensions" as well as enforcing constraints. 
 For example, a "prescription" form might have extension elements added to support tracking of restricted medications while also constraining the codes that can be used to communicate types of drugs to a particular national standard. Forms are designed in such a way that these changes can be made without changing how systems pass forms around, enabling any system to consume completed forms even if they have additional elements added, 
 whether or not those additional elements are used by the receiving system.
@@ -239,13 +243,13 @@ To keep the number of resources reasonable, some of them are fairly broad. For e
 To support setting rules for more narrow areas (e.g. "What should I send if I want to share a blood pressure?"), FHIR allows the creation of Profiles. 
 
 **Digital Rights implementation**
------------------------------
+	
 Privacy rights requests must be usable in different countries, jurisdictions, and by different types of privacy mandates in different contexts (GDPR, COPPA, CCPA, etc.). Recognizing that a one size fits all approach is not appropriate in the privacy eco-sphere, FHIR provides the ability to adjust the forms (Resources) to be able to handle the needs of different implementations used by organizations to comply with a similar requirement or a completely different requirement, by defining "extensions" as well as enforcing constraints. 
 ============================
-###Topic: FHIR Narrative
+### Topic: FHIR Narrative
 
 **FHIR implementation**
--------------------
+	
 Although FHIR is designed to share discrete, structured data for computation, a human-readable view is also a valuable resource within an healthcare information exchange to get a full picture of what's going on.
 
 The Narrative element is expected to exist for most resource instances, although it can be omitted in a few limited circumstances. In some cases, the narrative will be generated from discrete information. For example, the narrative for a patient might look like this:
@@ -263,17 +267,17 @@ In other cases, the narrative might be free-form text commentary entered directl
 These principles and requirements have led to the current approach, where the material to be rendered is placed into the Section.content. [EDITORS: The current design doesn't make it clear where to consistently find narrative.] 
 
 **Digital Rights implementation**
------------------------------
+	
 The narrative (often a <text> element), contains the human-readable content for digital rights requests.
 It can be used as a template, with data elements from a set of resources referenced as variables.
 Think of the narrrative as a "representation layer", or stylesheet applied to underlying data elements from a set of resources. As a simple guidance principle, the narrative should represent ALL the raw data if not used as a template for discrete data. 
 
 The narrative SHOULD NOT mix raw data not contained elsewhere AND raw data referenced from resource variables. If the raw data requires different levels of confidentiality or consent, use multiple sections to segment the narrative in accordance with the appropriate level of confidentiality or consent required.
 ============================
-###Topic: FHIR Interfaces
+### Topic: FHIR Interfaces
 
 **FHIR implementation**
--------------------
+	
 In addition to defining the "forms" for data exchange (Resources), FHIR also defines a set of interfaces 
 by which systems actually share that information. There are four primary mechanisms or "paradigms" of exchange supported by FHIR: via a REST interface, by exchanging Documents, by sending and receiving Messages and by exposing and invoking Services.
 
@@ -302,16 +306,16 @@ a small sticky note is attached to the front of a resource. And sometimes rather
 E.g. "Is there a problem with prescribing medication X for patient Y?" or "What's the recommended care plan for a patient with conditions A, B and C?"
 
 **Digital Rights implementation**
------------------------------
+	
 Because there is no current standard for a Digital Rights or AgentAPI, it's necessary to use exchange methods which do not depend on HTTP REST APIs. For example, an Access Request can be sent to an Organization via an email template that pulls in the Narrative and other personal details from FHIR resources.
 Responses to the Access Request from the Organization can be validated against the appropriate Response message, document, or service.
 FHIR does not define interfaces for other transport protocols such as SMTP, telephony, or webforms,
 but these methods are needed in order to exercise privacy rights over the "proper channels" dictated by the Organization.
 ============================
-###Topic: FHIR Clinical Resources
+### Topic: FHIR Clinical Resources
 
 **FHIR implementation**
--------------------
+	
 A FHIR-based system's capabilities are defined by what the Resources can say and from a clinical perspective, 
 these things define the clinical record:
 - the kinds of Resources that are defined.
@@ -321,7 +325,7 @@ these things define the clinical record:
 This information can all be found in the resource definition pages. 
 
 **Digital Rights implementation**
------------------------------
+	
 In Digital Rights, a FHIR-based system's capabilities are also defined by what the Resources say, except that instead of a clinical record, what is being defined is the collection of a DataSubject's personal information that is collected, stored, processed and shared by each "Party", such as an Organization or Enforcement Authority.
 
 As a modified set of FHIR Resource definitions, this includes:
@@ -330,10 +334,10 @@ Diagnostics               -> The privacy "issues" being addressed through privac
 Medications               -> The remediations planned or prescribed to correct violations.
 Administrative            -> The personal constraints or preferences used to process requests or manage vendors.
 ============================
-###Topic: FHIR Developers Overview
+### Topic: FHIR Developers Overview
 
 **FHIR implementation**
--------------------
+	
 FHIR is based on "Resources" which are the common building blocks for all exchanges. Resources are an instance-level representation of some kind of healthcare entity. All resources have the following features in common:
 -  A URL that identifies the resource.
 -  Common metadata.
@@ -723,13 +727,13 @@ implicitRules (line 17) - indicates that there is a custom agreement about how t
 language (line 18) - The base language of the resource. The resource is allowed to have content from other languages; this is just the base, but should be the main language of the resource. The base properties of all resources are defined on the resource types Resource and DomainResource.
 
 **Digital Rights implementation**
------------------------------
+
 No specific guidance provided at this time.
 ============================
-###Topic: FHIR Security and Privacy Module
+### Topic: FHIR Security and Privacy Module
 
 **FHIR implementation**
--------------------
+	
 The Security and Privacy Module describes how to protect a FHIR server (through access control and authorization), how to document what permissions a user has granted (consent), and how to keep records about what events have been performed (audit logging and provenance). 
 
 FHIR does not mandate a single technical approach to security and privacy; rather, the specification provides a set of building blocks that can be applied to create secure, private systems.
@@ -781,7 +785,7 @@ The basic flow of the use case is that:
 - retrieves clinical documents for the patient and retrieves clinical resources for the patient. 
 
 **Digital Rights implementation**
------------------------------
+	
 The set of considerations required to ensure that individual data are treated according to an individual's Privacy Principles and Privacy-By-Design can be implemented through a custom Conformance resource
 representing the individual's privacy policy and preferences which are linked to the individual's profile.
 Explicit FHIR consents can be used in lieu of a custom Conformance resource.
@@ -799,10 +803,10 @@ The basic flow of the use case is that:
 - logs in, 
 - retrieves personal data elements for the DataSubject from the PII repository's API and supplies these as parameters to the FHIR API to populate account or identity verification forms for the DataSubject. 
 ============================
-###Topic: FHIR Mapping Language
+### Topic: FHIR Mapping Language
 
 **FHIR implementation**
--------------------
+	
 The FHIR Specification includes a mapping language. The mapping language has a concrete syntax, defined and described in this page, and an abstract syntax, which is found in the StructureMap resource. 
 
 The mapping language addresses two very different kinds of transformations:
@@ -818,20 +822,20 @@ A map has 6 parts:
 - A series of transformation rules in each group
 
 **Digital Rights implementation**
------------------------------
+	
 The Mapping Language has a status of "Trial Use", which has potential but is not implemented at this time.
 ============================
-###Topic: FHIR Medications Module
+### Topic: FHIR Medications Module
 
 **FHIR implementation**
--------------------
+	
 This module is concerned with resources and functionality in 3 main domains:
 - The ordering, dispensing, administration of medications and recording statements of medication use.
 - Recording of Immunizations given (or not given), evaluation of given immunizations and recommendations for an individual patient at a point in time.
 - The creation or querying for medications as part of drug information or drug knowledge.
 
 **Digital Rights implementation**
------------------------------
+	
 As a modified set of FHIR Medication Resource definitions, this includes:
 
 Medication -> Remediation
@@ -854,10 +858,10 @@ ImmunizationEvaluation -> A set of factors used to evaluate exemption status.
 
 ImmunizationRecommendation -> Action(s) to take when a Resource is exempt from complying with privacy laws.
 ============================
-###Topic: FHIR Clinical Safety
+### Topic: FHIR Clinical Safety
 
 **FHIR implementation**
--------------------
+	
 This specification defines data elements, resources, formats, methods and APIs for exchanging healthcare data 
 between different participants in the healthcare process. As such, Clinical Safety is a key concern 
 with regard to the specification and its many and various implementations.
@@ -936,13 +940,13 @@ For Servers:
 - Errors are trapped and an OperationOutcome returned.
 
 **Digital Rights implementation**
------------------------------
+	
 In this AgentAPI, we assign the Safety Checklist to our virtual Auditor, which is represented by the VGS Control API. The checklist described above represent some of the parameters or rulesets from FHIR resources that could be sent for processing by the VGS Control API. 
 ============================
-###Topic: FHIR Search
+### Topic: FHIR Search
 
 **FHIR implementation**
--------------------
+	
 Search operations traverse through an existing set of resources filtering by parameters supplied to the search operation. The text below describes the FHIR search framework, starting with simple cases moving to the more complex. 
 
 Summary Table
@@ -962,13 +966,13 @@ In addition, there is a special search parameters _query and _filter that allow 
 Note that search parameter names are case sensitive, though this specification never defines different parameters with names that differ only in case. Clients SHOULD use correct case, and servers SHALL not define additional parameters with different meanings with names that only differ in case. 
 
 **Digital Rights implementation**
------------------------------
+	
 This section will be updated after initial baseline tests on Search is complete.
 ============================
-###Topic: Testing FHIR
+### Topic: Testing FHIR
 
 **FHIR implementation**
--------------------
+	
 As a consequence of the FHIR specification being relatively "loose", a testing framework has been established within the FHIR specification. The TestScript resource provides an implementation-agnostic description of tests that allows test execution engines to evaluate if a FHIR implementation conforms with the FHIR specification. 
 
 The TestScript resource stands as a form of executable documentation allowing developers to examine the operations defined by the tests in order to understand how various RESTful API interactions and resources should be used in coordination. 
@@ -990,10 +994,10 @@ The TestScript resource contains:
   - A set of operations to tear down the test environment.
 
 **Digital Rights implementation**
------------------------------
+	
 This section will be updated after initial baseline tests using TestScript is complete.
 ======================================
-###OTHER FHIR RESOURCES AND ARTIFACTS USED IN DIGITAL RIGHTS
+### OTHER FHIR RESOURCES AND ARTIFACTS USED IN DIGITAL RIGHTS
 
     <!-- used when an online portal or financial billing account is established between the individual and an organization.	-->
     <xs:element name="Account" type="Account">
