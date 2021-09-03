@@ -69,8 +69,12 @@
 		</xs:complexType>
 	</link>
 	<entry>
+    xs:element name="entry" type="Bundle.Entry" minOccurs="0" maxOccurs="unbounded"
+  <!-- An entry in a bundle resource 
+  - will either contain a resource or information about a resource (transactions and history only). -->
   <!-- can be resource or request-->
-		<link>
+	  <xs:complexType name="Bundle.Entry">
+	 	<link>
 		  xs:element name="link" type="Bundle.Link" minOccurs="0" maxOccurs="unbounded"
 		  <!-- A series of links that provide context to this entry.  -->
 		</link>
@@ -88,50 +92,222 @@
 		  xs:element name="resource" minOccurs="0" maxOccurs="1" type="ResourceContainer"
 		  <!-- The Resource for the entry. The purpose/meaning of the resource is determined by the Bundle.type. -->
     	<MessageDefinition>
+    	  <!-- Defines the characteristics of a message that can be shared between systems, 
+    	  including the type of event that initiates the message, the content to be transmitted and what response(s), 
+    	  if any, are permitted. -->
+    	  <!-- If the element is present, it must have either a @value, an @id, or extensions -->
+    	  <xs:complexType name="MessageDefinition">
     		<text>example shows text node as text-value of this element, but not in schema...</text>
-    		<url>minOccurs="0" maxOccurs="1" type="uri"</url>
-    		<identifier>minOccurs="0" maxOccurs="unbounded" type="Identifier"</identifier>
-    		<version>minOccurs="0" maxOccurs="1" type="string"</version>
-    		<name>minOccurs="0" maxOccurs="1" type="string"</name>
-    		<title>minOccurs="0" maxOccurs="1" type="string"</title>
-    		<replaces>minOccurs="0" maxOccurs="unbounded" type="canonical"</replaces>
-    		<status>minOccurs="1" maxOccurs="1" type="PublicationStatus"</status>
-    		<experimental>minOccurs="0" maxOccurs="1" type="boolean"</experimental>
-    		<date>minOccurs="1" maxOccurs="1" type="dateTime"</date>
-    		<publisher>minOccurs="0" maxOccurs="1" type="string"</publisher>
-    		<contact>minOccurs="0" maxOccurs="unbounded" type="ContactDetail"</contact>
-    		<description>minOccurs="0" maxOccurs="1" type="markdown"</description>
-    		<useContext>minOccurs="0" maxOccurs="unbounded" type="UsageContext"</useContext>
-    		<jurisdiction>minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"</jurisdiction>
-    		<purpose>minOccurs="0" maxOccurs="1" type="markdown"</purpose>
-    		<copyright>minOccurs="0" maxOccurs="1" type="markdown"</copyright>
-    		<base>minOccurs="0" maxOccurs="1" type="canonical"</base>
-    		<parent>minOccurs="0" maxOccurs="unbounded" type="canonical"</parent>
+    		<url>
+    		  minOccurs="0" maxOccurs="1" type="uri"
+    		  <!-- The business identifier that is used to reference the MessageDefinition 
+    		  and *is* expected to be consistent from server to server. -->
+    		</url>
+    		<identifier>
+    		  minOccurs="0" maxOccurs="unbounded" type="Identifier"
+    		  <!-- A formal identifier that is used to identify this message definition 
+    		  when it is represented in other formats, or referenced in a specification, 
+    		  model, design or an instance. -->
+    		  <xs:complexType name="Identifier">
+          <!-- A persistent identifier for the bundle that won't change 
+          as a bundle is copied from server to server.-->		
+      		<use>
+			      <value>usual, official, temp, secondary</value>
+		      </use>
+		      <label></label>
+		      <system></system>
+		      <value></value>
+      		<period>
+      			<start></start>
+      			<end></end>
+      		</period>
+      		<assigner>
+      			<reference></reference>
+      			<display></display>
+      		</assigner>
+      		</xs:complexType>
+    		</identifier>
+    		<version>
+    		  minOccurs="0" maxOccurs="1" type="string"
+    		  <!-- The identifier that is used to identify this version of the message definition 
+    		  when it is referenced in a specification, model, design or instance. 
+    		  This is an arbitrary value managed by the message definition author 
+    		  and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) 
+    		  if a managed version is not available. There is also no expectation that versions can be placed
+    		  in a lexicographical sequence. -->
+    		</version>
+    		<name>
+    		  minOccurs="0" maxOccurs="1" type="string"
+    		  <!-- A natural language name identifying the message definition. This name should be usable 
+    		  as an identifier for the module by machine processing applications such as code generation. -->
+    		</name>
+    		<title>
+    		  minOccurs="0" maxOccurs="1" type="string"
+    		  <!-- A short, descriptive, user-friendly title for the message definition. -->
+    		</title>
+    		<replaces>
+    		  minOccurs="0" maxOccurs="unbounded" type="canonical"
+    		  <!-- A MessageDefinition that is superseded by this definition. -->
+    		</replaces>
+    		<status>
+    		  minOccurs="1" maxOccurs="1" type="PublicationStatus"
+    		  <!--  The status of this message definition. Enables tracking the life-cycle of the content. -->
+    		  <xs:complexType name="PublicationStatus">
+					  <xs:attribute name="value" type="PublicationStatus-list" use="optional"/>
+      				<xs:simpleType name="PublicationStatus-list">
+			      		<xs:enumeration value="draft" />
+					      <xs:enumeration value=" active" />
+					      <xs:enumeration value=" retired" />
+					      <xs:enumeration value=" unknown" />
+      				</xs:simpleType>
+				  </xs:complexType>
+    		</status>
+    		<experimental>
+    		  minOccurs="0" maxOccurs="1" type="boolean"
+    		  <!--  A Boolean value to indicate that this message definition is authored for testing purposes 
+    		  (or education/evaluation/marketing) and is not intended to be used for genuine usage. -->
+    		</experimental>
+    		<date>
+    		  minOccurs="1" maxOccurs="1" type="dateTime"
+    		  <!--  The date  (and optionally time) when the message definition was published. 
+    		  The date must change when the business version changes and it must change if the status code changes. 
+    		  In addition, it should change when the substantive content of the message definition changes. -->
+    		</date>
+    		<publisher>
+    		  minOccurs="0" maxOccurs="1" type="string"
+    		  <!--  The name of the organization or individual that published the message definition. -->
+    		</publisher>
+    		<contact>
+    		  minOccurs="0" maxOccurs="unbounded" type="ContactDetail"
+    		  <!--  Contact details to assist a user in finding and communicating with the publisher.  -->
+    		</contact>
+    		<description>
+    		  minOccurs="0" maxOccurs="1" type="markdown"
+    		  <!--  A free text natural language description of the message definition from a consumer's perspective.  -->
+    		</description>
+    		<useContext>
+    		  minOccurs="0" maxOccurs="unbounded" type="UsageContext"
+    		  <!--  The content was developed with a focus and intent of supporting the contexts that are listed. 
+    		  These contexts may be general categories (gender, age, ...) or may be references to specific programs 
+    		  (insurance plans, studies, ...) and may be used to assist with indexing and searching for 
+    		  appropriate message definition instances.  -->
+    		  
+    		</useContext>
+    		<jurisdiction>
+    		  minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"
+    		  <!--  A legal or geographic region in which the message definition is intended to be used. -->
+    		</jurisdiction>
+    		<purpose>
+    		  minOccurs="0" maxOccurs="1" type="markdown"
+    		  <!--  Explanation of why this message definition is needed and why it has been designed as it has. -->
+    		</purpose>
+    		<copyright>
+    		  minOccurs="0" maxOccurs="1" type="markdown"
+    		  <!--  A copyright statement relating to the message definition and/or its contents. 
+    		  Copyright statements are generally legal restrictions on the use and publishing of the message definition.  -->
+    		</copyright>
+    		<base>
+    		  minOccurs="0" maxOccurs="1" type="canonical"
+    		  <!--  The MessageDefinition that is the basis for the contents of this resource.  -->
+    		</base>
+    		<parent>
+    		  minOccurs="0" maxOccurs="unbounded" type="canonical"
+    		  <!--  Identifies a protocol or workflow that this MessageDefinition represents a step in. -->
+    		</parent>
     		<!-- <xs:choice minOccurs="1" maxOccurs="1" > -->
     		<eventCoding>type="Coding"</eventCoding>
     		<eventUri>type="uri"</eventUri>
     		<!-- </xs:choice> -->
-    		<category>minOccurs="0" maxOccurs="1" type="MessageSignificanceCategory"</category>
+    		<category>
+    		  minOccurs="0" maxOccurs="1" type="MessageSignificanceCategory"
+    		  <!--  The impact of the content of the message. -->
+    		  <!-- If the element is present, it must have either a @value, an @id, or extensions -->
+          <xs:complexType name="MessageSignificanceCategory">
+    		    <xs:simpleType name="MessageSignificanceCategory-list">
+            <xs:enumeration value="consequence" />
+            <xs:enumeration value="currency" />
+            <xs:enumeration value="notification" />
+            </xs:simpleType>
+          </xs:complexType>
+    		</category>
     		<focus>
     			type="MessageDefinition.Focus" minOccurs="0" maxOccurs="unbounded"
-    			<code>minOccurs="1" maxOccurs="1" type="code"</code>
-    			<profile>minOccurs="0" maxOccurs="1" type="canonical"</profile>
-    			<min>minOccurs="1" maxOccurs="1" type="unsignedInt"</min>
-    			<max>minOccurs="0" maxOccurs="1" type="string"</max>
+    			<!-- Identifies the resource (or resources) that are being addressed by the event.  
+    			For example, the Encounter for an admit message or two Account records for a merge.  -->
+          <!-- Defines the characteristics of a message that can be shared between systems, 
+          including the type of event that initiates the message, the content to be transmitted 
+          and what response(s), if any, are permitted. -->
+          <xs:complexType name="MessageDefinition.Focus">
+    			<code>
+    			  minOccurs="1" maxOccurs="1" type="code"
+    			  <!-- The kind of resource that must be the focus for this message. -->
+    			 </code>
+    			<profile>
+    			  minOccurs="0" maxOccurs="1" type="canonical"
+    			  <!-- A profile that reflects constraints for the focal resource 
+    			  (and potentially for related resources).  -->
+    			</profile>
+    			<min>
+    			  minOccurs="1" maxOccurs="1" type="unsignedInt"
+    			  <!-- Identifies the minimum number of resources of this type 
+    			  that must be pointed to by a message in order for it to be valid against this MessageDefinition. -->
+    			</min>
+    			<max>
+    			  minOccurs="0" maxOccurs="1" type="string"
+    			  <!-- Identifies the maximum number of resources of this type 
+    			  that must be pointed to by a message in order for it to be valid against this MessageDefinition. -->
+    			</max>
+          </xs:complexType>
     		</focus>
-    		<responseRequired>minOccurs="0" maxOccurs="1" type="messageheaderResponseRequest"</responseRequired>
+    		<responseRequired>
+    		  minOccurs="0" maxOccurs="1" type="messageheaderResponseRequest"
+    		  <!--  Declare at a message definition level 
+    		  whether a response is required or only upon error or success, or never. -->
+          <xs:complexType name="messageheaderResponseRequest">
+          <!-- HL7-defined table of codes which identify conditions under which acknowledgments are required 
+          to be returned in response to a message. -->
+          <!-- If the element is present, it must have either a @value, an @id, or extensions -->
+            <xs:attribute name="value" type="messageheaderResponseRequest-list" use="optional"/>
+              <xs:simpleType name="messageheaderResponseRequest-list">
+                <xs:enumeration value="always" />
+                <xs:enumeration value="on-error" />
+                <xs:enumeration value="never" />
+                <xs:enumeration value="on-success" />
+              </xs:simpleType>
+            </xs:complexType>
+    		</responseRequired>
     		<allowedResponse>
     			type="MessageDefinition.AllowedResponse" minOccurs="0" maxOccurs="unbounded"
-    			<message>minOccurs="1" maxOccurs="1" type="canonical"</message>
-    			<situation>minOccurs="0" maxOccurs="1" type="markdown"</situation>
+    			<!-- Indicates what types of messages may be sent as an application-level response to this message.  -->
+          <!-- Defines the characteristics of a message that can be shared between systems, 
+          including the type of event that initiates the message, the content to be transmitted and what response(s), 
+          if any, are permitted. -->
+          <xs:complexType name="MessageDefinition.AllowedResponse">
+    			<message>
+    			  minOccurs="1" maxOccurs="1" type="canonical"
+    			  <!-- A reference to the message definition that must be adhered to by this supported response. -->
+    			</message>
+    			<situation>
+    			  minOccurs="0" maxOccurs="1" type="markdown"
+    			  <!-- Provides a description of the circumstances in which this response should be used 
+    			  (as opposed to one of the alternative responses). -->
+    			</situation>
+    			</xs:complexType>
     		</allowedResponse>
-    		<graph>minOccurs="0" maxOccurs="unbounded" type="canonical"</graph>
+    		<graph>
+    		  minOccurs="0" maxOccurs="unbounded" type="canonical"
+    		  <!--  Canonical reference to a GraphDefinition. If a URL is provided, 
+    		  it is the canonical reference to a [[[GraphDefinition]]] 
+    		  that it controls what resources are to be added to the bundle when building the document. 
+    		  The GraphDefinition can also specify profiles that apply to the various resources. -->
+    		</graph>
+    		</xs:complexType>
     	</MessageDefinition>
 		</resource>
 		<search>
       xs:element name="search" type="Bundle.Search" minOccurs="0" maxOccurs="1"		  
 		  <!-- Information about the search process that lead to the creation of this entry. -->
-      <xs:complexContent>
+      <xs:complexContent name="Bundle.Search">
       <mode>
         xs:element name="mode" minOccurs="0" maxOccurs="1" type="SearchEntryMode"
         <!-- Why this entry is in the result set - whether it's included as a match 
@@ -215,6 +391,7 @@
 		  <!-- Indicates the results of processing the corresponding 'request' entry in the batch 
 		  or transaction being responded to or what the results of an operation where when returning history. -->
 		</response>
+	  </xs:complexType>
 	</entry>
 	<signature>
 	  xs:element name="signature" minOccurs="0" maxOccurs="1" type="Signature"
@@ -236,48 +413,3 @@
     </xs:complexType>
 	</signature>
 </Bundle>
-
-
-<Request namespace="Bundle.Entry" id="">
-	<method>HTTPVerb</method>
-	<url>uri</url>
-	<MessageDefinition>
-		<text>example shows text node as text-value of this element, but not in schema...</text>
-		<url>minOccurs="0" maxOccurs="1" type="uri"</url>
-		<identifier>minOccurs="0" maxOccurs="unbounded" type="Identifier"</identifier>
-		<version>minOccurs="0" maxOccurs="1" type="string"</version>
-		<name>minOccurs="0" maxOccurs="1" type="string"</name>
-		<title>minOccurs="0" maxOccurs="1" type="string"</title>
-		<replaces>minOccurs="0" maxOccurs="unbounded" type="canonical"</replaces>
-		<status>minOccurs="1" maxOccurs="1" type="PublicationStatus"</status>
-		<experimental>minOccurs="0" maxOccurs="1" type="boolean"</experimental>
-		<date>minOccurs="1" maxOccurs="1" type="dateTime"</date>
-		<publisher>minOccurs="0" maxOccurs="1" type="string"</publisher>
-		<contact>minOccurs="0" maxOccurs="unbounded" type="ContactDetail"</contact>
-		<description>minOccurs="0" maxOccurs="1" type="markdown"</description>
-		<useContext>minOccurs="0" maxOccurs="unbounded" type="UsageContext"</useContext>
-		<jurisdiction>minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"</jurisdiction>
-		<purpose>minOccurs="0" maxOccurs="1" type="markdown"</purpose>
-		<copyright>minOccurs="0" maxOccurs="1" type="markdown"</copyright>
-		<base>minOccurs="0" maxOccurs="1" type="canonical"</base>
-		<parent>minOccurs="0" maxOccurs="unbounded" type="canonical"</parent>
-		<!-- <xs:choice minOccurs="1" maxOccurs="1" > -->
-		<eventCoding>type="Coding"</eventCoding>
-		<eventUri>type="uri"</eventUri>
-		<!-- </xs:choice> -->
-		<category>minOccurs="0" maxOccurs="1" type="MessageSignificanceCategory"</category>
-		<focus>
-			type="MessageDefinition.Focus" minOccurs="0" maxOccurs="unbounded"
-			<code>minOccurs="1" maxOccurs="1" type="code"</code>
-			<profile>minOccurs="0" maxOccurs="1" type="canonical"</profile>
-			<min>minOccurs="1" maxOccurs="1" type="unsignedInt"</min>
-			<max>minOccurs="0" maxOccurs="1" type="string"</max>
-		</focus>
-		<responseRequired>minOccurs="0" maxOccurs="1" type="messageheaderResponseRequest"</responseRequired>
-		<allowedResponse>
-			type="MessageDefinition.AllowedResponse" minOccurs="0" maxOccurs="unbounded"
-			<message>minOccurs="1" maxOccurs="1" type="canonical"</message>
-			<situation>minOccurs="0" maxOccurs="1" type="markdown"</situation>
-		</allowedResponse>
-		<graph>minOccurs="0" maxOccurs="unbounded" type="canonical"</graph>
-	</MessageDefinition>
