@@ -11,6 +11,7 @@ This API, designed for individual consumers and their agents, will benefit all s
 Specifications for this API are derived from:
 
 HL7.org https://hl7.org/FHIR
+
 VGS API https://www.verygoodsecurity.com/docs/api/1
 
 The AgentAPI is organized as follows:
