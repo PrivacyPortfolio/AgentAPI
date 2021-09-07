@@ -15,8 +15,25 @@ VGS API https://www.verygoodsecurity.com/docs/api/1
 
 The AgentAPI is organized as follows:
 
-Message Schemas
+FHIR Message Schemas
 ---------------
+These schemas conform to FHIR 4.01, for transporting message payload schemas according to the Implementation Guide.
+A number of different schemas can be used depending on the type: REST, Messaging, Document, and System.
+
+Simple API Bundle.xml             - lightweight request-response using <any> node for custom message payloads processed by external systems.
+
+Simple API Search Bundle.xml      - light-weight request-response using search parameters for finding custom message payloads.
+
+Simple MessageHeader Bundle.xml   - light-weight request-response using asynchronous messaging header schemas for containing custom message payloads.
+
+Simple Messaging Bundle.xml       - medium-weight request-response using one or more messaging definition schemas for containing custom message payloads.
+
+Composition Document Bundle.xml   - heavy-weight Document with multiple Composition.Sections containing custom message payloads inline or by reference.
+
+
+Message Payload Schemas
+---------------
+
   GenericRequest            - Used for testing requests without a defined payload
   
   InquiryRequest            - Requests answers to simple questions about policies and practices
@@ -108,9 +125,10 @@ Microsoft Azure offers https://github.com/microsoft/fhir-server.
 Digital rights interchanges can also be simplified for minimally-functioning environments,
 and schemas can be relaxed enough to accommodate message payloads from other systems and APIs. 
 
-Other documents in the docs folder include:
+Other documents include:
+  
 Methodology.md - explains the steps I took in developing this AgentAPI.
+
 Use-case scenarios.md - narratives for common use cases.
-Access-Bundle.xml - lightweight request-response using <any> node for custom message payloads processed by external systems.
-Access-Composition.xml - Payload as Composition.Section with email request as Narrative.
+
 DevelopmentRoadmap.md - documents what is complete, what is planned, and what is proposed for AgentAPI.
