@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Request as a Composition Document type on Bundle -->
+<!-- Payload as Composition.Section -->
+
+<Bundle xmlns="http://hl7.org/fhir">
+  xs:element name="Bundle" type="Bundle"
+  <!-- A container for a collection of resources about a father returned as a response operation to a search bundle. -->
+  <xs:complexType name="Bundle">
+  <id value="father" />
+  <meta>
+    <lastUpdated value="2013-05-28T22:12:21Z"/>
+  </meta>
+	<identifier>
+		xs:element name="identifier" minOccurs="0" maxOccurs="1" type="Identifier"
+    <!-- A persistent identifier for the bundle that won't change as a bundle is copied from server to server.-->		
+		<xs:complexType name="Identifier">
+		<use>
+			<value>usual, official, temp, secondary</value>
+		</use>
+		<label></label>
+		<system></system>
+		<value></value>
+		<period>
+			<start></start>
+			<end></end>
+		</period>
+		<assigner>
+			<reference></reference>
+			<display></display>
+		</assigner>
+		</xs:complexType>
+	</identifier>
+	<type>
+		xs:element name="type" minOccurs="1" maxOccurs="1" type="BundleType"
+		<!-- Indicates the purpose of this bundle - how it is intended to be used. -->
+		<xs:complexType name="BundleType">
+			<xs:attribute name="value" type="BundleType-list" use="optional"/>
+		</xs:complexType>
+		<xs:simpleType name="BundleType-list">
+			<xs:enumeration value="document" /> <!-- true -->
+			<xs:enumeration value="message" />
+			<xs:enumeration value="transaction" />
+			<xs:enumeration value="transaction-response" />
+			<xs:enumeration value="batch" />
+			<xs:enumeration value="batch-response" />
+			<xs:enumeration value="history" />
+			<xs:enumeration value="searchset" />
+			<xs:enumeration value="collection" />
+		</xs:simpleType>
+		</xs:complexType>
+  </type>
+	<timestamp>
+	  xs:element name="timestamp" minOccurs="0" maxOccurs="1" type="instant"
+	  <!-- The date/time that the bundle was assembled - i.e. when the resources were placed in the bundle.  -->
+	</timestamp>
+  <!-- not included in example -->
+	<total>
+	  xs:element name="total" minOccurs="0" maxOccurs="1" type="unsignedInt"
+	  <!-- If a set of search matches, this is the total number of entries of type 'match' across all pages 
+	  in the search.  It does not include search.mode = 'include' or 'outcome' entries and it does not provide
+	  a count of the number of entries in the Bundle.  -->  
+	</total>
+  <!-- not included in example -->
+	<link>xs:element name="link" type="Bundle.Link" minOccurs="0" maxOccurs="unbounded"
+    <!--  A series of links that provide context to this bundle.  -->		
+		<xs:complexType name="Bundle.Link">
+		<relation>
+		  xs:element name="relation" minOccurs="1" maxOccurs="1" type="string"
+		  <!-- A name which details the functional use for this link -->
+	  </relation>
+		<url>
+		  xs:element name="url" minOccurs="1" maxOccurs="1" type="uri"
+		  <!-- The reference details for the link. -->
+		</url>
+		</xs:complexType>
+	</link>
+	<!-- Composition resource placed at first element under <entry><resource> -->
+	<entry>
+    xs:element name="entry" type="Bundle.Entry" minOccurs="0" maxOccurs="unbounded"
+    <!-- An entry in a bundle resource 
+    - will either contain a resource or information about a resource (transactions and history only). -->
+    <!-- can be resource or request-->
+    <!-- The Composition resource organizes clinical and administrative content into sections, 
+    each of which contains a narrative, and references other resources for supporting data. 
+    The narrative content of the various sections in a Composition 
+    are supported by the resources referenced in the section entries. 
+    The complete set of content to make up a document includes the Composition resource 
+    together with various resources pointed to or indirectly connected to the Composition, 
+    all gathered together into a Bundle for transport and persistence. -->
+	  <xs:complexType name="Bundle.Entry">
+    <!-- not included in example -->
+	 	<link>
+		  xs:element name="link" type="Bundle.Link" minOccurs="0" maxOccurs="unbounded"
+		  <!-- A series of links that provide context to this entry.  -->
+		</link>
+		<fullUrl>
+		  xs:element name="fullUrl" minOccurs="0" maxOccurs="1" type="uri"
+		  <!-- The Absolute URL for the resource.  The fullUrl SHALL NOT disagree with the id in the resource 
+		  - i.e. if the fullUrl is not a urn:uuid, the URL shall be version-independent URL consistent with 
+		  the Resource.id. The fullUrl is a version independent reference to the resource. The fullUrl element 
+		  SHALL have a value except that: 
+      * fullUrl can be empty on a POST (although it does not need to when specifying a temporary id for reference in the bundle)
+      * Results from operations might involve resources that are not identified. -->
+		</fullUrl>
+		<!-- example: <fullUrl value="http://fhir.healthintersections.com.au/open/Composition/180f219f-97a8..."/> -->
+		<!-- resource -->
+		<resource>
+		  xs:element name="resource" minOccurs="0" maxOccurs="1" type="ResourceContainer"
+		  <!-- The Resource for the entry. The purpose/meaning of the resource is determined by the Bundle.type. -->
+      <Composition>
+        xs:element name="Composition" type="Composition"
+        <xs:complexType name="Composition">
+        <!--
+        Resources associated with the following list of Composition references SHALL be included in the Bundle: 
+        Composition.subject
+        Composition.encounter
+        Composition.author
+        Composition.attester.party
+        Composition.custodian
+        Composition.event.detail
+        Composition.section.author
+        Composition.section.focus
+        Composition.section.entry
+        -->
+        <id value="180f219f-97a8-486d-99d9-ed631fe4fc57"/>
+        <meta>
+          <lastUpdated value="2013-05-28T22:12:21Z"/>
+        </meta>
+        <!-- The workflow/clinical status of this composition. 
+        The status is a marker for the clinical standing of the document. -->
+        <status>
+          xs:element name="status" minOccurs="1" maxOccurs="1" type="CompositionStatus"
+      		<xs:complexType name="CompositionStatus">
+    			<value>
+		  		  xs:attribute name="value" type="CompositionStatus-list" use="optional"
+			    	<xs:simpleType name="CompositionStatus-list">
+				    <xs:enumeration value="preliminary" />
+				    <xs:enumeration value="final" />  <!-- true -->
+				    <xs:enumeration value="amended" />
+				    <xs:enumeration value="entered-in-error"/>
+				    </xs:simpleType>
+			    </value>
+		      </xs:complexType>
+        </status> 
+        <!-- Specifies the particular kind of composition (e.g. History and Physical, Discharge Summary, Progress Note).
+        This usually equates to the purpose of making the composition. -->
+        <type>
+      		minOccurs="1" maxOccurs="1" type="CodeableConcept"
+      		<xs:complexType name="CodeableConcept">
+      		<coding>type="Coding" minOccurs="0" maxOccurs="unbounded"</coding>
+      		<text>type="string" minOccurs="0" maxOccurs="1"</text>
+      		</xs:complexType>
+      	</type>
+        <!-- A categorization for the type of the composition - helps for indexing and searching. 
+        This may be implied by or derived from the code specified in the Composition Type. -->
+      	<category>
+      		minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"
+      		<xs:complexType name="CodeableConcept">
+      		<coding>type="Coding" minOccurs="0" maxOccurs="unbounded"</coding>
+      		<text>type="string" minOccurs="0" maxOccurs="1"</text>
+      		</xs:complexType>
+      	</category>
+        <!-- Who or what the composition is about. 
+        The composition can be about a person, (patient or healthcare practitioner), 
+        a device (e.g. a machine) or even a group of subjects 
+        (such as a document about a herd of livestock, 
+        or a set of patients that share a common exposure). -->
+        <subject>
+          minOccurs="0" maxOccurs="1" type="Reference"
+          <reference value="http://fhir.healthintersections.com.au/open/Patient/d1"/>
+          <display value="Eve Everywoman"/>
+        </subject>
+        <!-- Describes the clinical encounter or type of care this documentation is associated with. -->
+	      <encounter>
+	        minOccurs="0" maxOccurs="1" type="Reference"
+	        
+	      </encounter>
+        <!-- The composition editing time, when the composition was last logically changed by the author. -->
+      	<date>minOccurs="1" maxOccurs="1" type="dateTime"</date>
+        <!-- Identifies who is responsible for the information in the composition, not necessarily who typed it in. -->
+      	<author>minOccurs="1" maxOccurs="unbounded" type="Reference"
+      	  <reference value="http://fhir.healthintersections.com.au/open/Patient/d1"/>
+      	</author>
+        <!-- Official human-readable label for the composition. -->
+      	<title>minOccurs="1" maxOccurs="1" type="string"</title>
+        <!-- The code specifying the level of confidentiality of the Composition. -->
+      	<confidentiality>
+      		minOccurs="0" maxOccurs="1" type="vConfidentialityClassification"
+      		<xs:complexType name="vConfidentialityClassification">
+      		<value>xs:attribute name="value" type="vConfidentialityClassification-list" use="optional"
+      			<xs:simpleType name="vConfidentialityClassification-list">
+      			<xs:enumeration value="U">unrestricted</xs:enumeration>
+      			<xs:enumeration value="L">low</xs:enumeration>
+      			<xs:enumeration value="M">moderate</xs:enumeration>
+      			<xs:enumeration value="N">normal</xs:enumeration>
+      			<xs:enumeration value="R">restricted</xs:enumeration>
+      			<xs:enumeration value="V">very restricted</xs:enumeration>
+      			</xs:simpleType>
+      		</value>
+      		</xs:complexType>		
+      	</confidentiality>
+        <!-- A participant who has attested to the accuracy of the composition/document. -->
+      	<attester>
+      		type="Composition.Attester" minOccurs="0" maxOccurs="unbounded"
+          <xs:complexType name="Composition.Attester">
+          <!-- The type of attestation the authenticator offers. -->
+      		<mode>
+      			minOccurs="1" maxOccurs="1" type="CompositionAttestationMode"
+      			<xs:complexType name="CompositionAttestationMode">
+      			<value>xs:attribute name="value" type="CompositionAttestationMode-list" use="optional"
+      				<xs:simpleType name="CompositionAttestationMode-list">
+      				<xs:enumeration value="personal" />
+      				<xs:enumeration value="professional" />
+      				<xs:enumeration value="legal" />
+      				<xs:enumeration value="official" />
+      				</xs:simpleType>
+      			</value>
+      			</xs:complexType>
+      		</mode>
+          <!-- When the composition was attested by the party. -->
+      		<time>minOccurs="0" maxOccurs="1" type="dateTime"</time>
+      		<!-- Who attested the composition in the specified way. -->
+      		<party>
+      		  minOccurs="0" maxOccurs="1" type="Reference"
+        	  <reference value="http://fhir.privacyportfolio.com/open/Agent/a1"/>
+      		</party>
+          </xs:complexType>
+      	</attester>
+      	<!-- Identifies the organization or group who is responsible 
+      	for ongoing maintenance of and access to the composition/document information. -->
+      	<custodian>
+      	  minOccurs="0" maxOccurs="1" type="Reference"
+      	  <reference value="http://fhir.privacyportfolio.com/open/Agent/a1"/>
+      	</custodian>
+        <!-- Relationships that this composition has with other compositions or documents that already exist. -->
+      	<relatesTo>
+      		type="Composition.RelatesTo" minOccurs="0" maxOccurs="unbounded"
+          <!-- The type of relationship that this composition has with anther composition or document. -->
+      		<code>
+      			minOccurs="1" maxOccurs="1" type="DocumentRelationshipType"
+      			<xs:complexType name="DocumentRelationshipType">
+      			<value>xs:attribute name="value" type="DocumentRelationshipType-list" use="optional"
+      				<xs:simpleType name="DocumentRelationshipType-list">
+      				<xs:enumeration value="replaces" />
+      				<xs:enumeration value="transforms" />
+      				<xs:enumeration value="signs" />
+      				<xs:enumeration value="appends" />
+      				</xs:simpleType>
+      			</value>
+      			</xs:complexType>
+      		</code>
+      		<!-- <xs:choice minOccurs="1" maxOccurs="1" > -->
+      		<!-- The target composition/document of this relationship. -->
+      		<targetIdentifier>type="Identifier"</targetIdentifier>
+      		<targetReference>type="Reference"</targetReference>
+      		<!-- </xs:choice> -->
+      	</relatesTo>
+      	<!-- The clinical service, such as a colonoscopy or an appendectomy, being documented. -->
+      	<event>
+      		type="Composition.Event" minOccurs="0" maxOccurs="unbounded"
+      	  <xs:complexType name="Composition.Event">
+          <!-- This list of codes represents the main clinical acts, 
+          such as a colonoscopy or an appendectomy, being documented. 
+          In some cases, the event is inherent in the typeCode, 
+          such as a &quot;History and Physical Report&quot; 
+          in which the procedure being documented is necessarily a &quot;History and Physical&quot; act. -->
+      		<code>
+      			minOccurs="0" maxOccurs="unbounded" type="CodeableConcept"
+      			<xs:complexType name="CodeableConcept">
+      			<coding>type="Coding" minOccurs="0" maxOccurs="unbounded"</coding>
+      			<text>type="string" minOccurs="0" maxOccurs="1"</text>
+      			</xs:complexType>
+      		</code>
+          <!-- The period of time covered by the documentation. 
+          There is no assertion that the documentation is a complete representation for this period, 
+          only that it documents events during this time. -->
+          <period>xs:element name="period" minOccurs="0" maxOccurs="1" type="Period"</period>
+          <!-- The description and/or reference of the event(s) being documented. 
+          For example, this could be used to document such a colonoscopy or an appendectomy. -->
+          <detail>
+            xs:element name="detail" minOccurs="0" maxOccurs="unbounded" type="Reference"
+            <!-- could be used to document events in which consent was given, or
+            document evidence from these events such as "point of collection", etc. -->
+          </detail>
+          </xs:complexType>
+      	</event>
+        <!-- this first section references the <dataSubject> portion of my custom payload at the composition level -->
+        <!-- The composition section defines a section (or sub-section) of the document, 
+        but unlike CDA, the section entries are actually references to other resources 
+        that hold the supporting data content for the section. This design means that 
+        the data can be reused in many other ways.  -->
+      	<section>
+      		type="Composition.Section" minOccurs="0" maxOccurs="unbounded"
+      	  <xs:complexType name="Composition.Section">
+          <!-- The label for this particular section.  
+          This will be part of the rendered content for the document, and is often used to build a table of contents. -->
+          <title>ACCESS REQUEST</title>
+          <!-- A code identifying the kind of content contained within the section. 
+          This must be consistent with the section title. -->
+          <code>
+            minOccurs="0" maxOccurs="1" type="CodeableConcept"
+            <!-- todo: codes for each class of digital rights requests (opt-out, delete, etc.) -->
+          </code>
+          <!-- Identifies who is responsible for the information in this section, not necessarily who typed it in. -->
+          <author>
+            minOccurs="0" maxOccurs="unbounded" type="Reference"
+            <reference value="http://fhir.privacyportfolio.com/open/Person/d1"/>
+          </author>
+          <!-- The actual focus of the section when it is not the subject of the composition, 
+          but instead represents something or someone associated with the subject such as 
+          (for a patient subject) a spouse, parent, fetus, or donor. 
+          If not focus is specified, the focus is assumed to be focus of the parent section, or, 
+          for a section in the Composition itself, the subject of the composition. 
+          Sections with a focus SHALL only include resources where the logical subject 
+          (patient, subject, focus, etc.) matches the section focus, 
+          or the resources have no logical subject (few resources). -->
+          <focus>minOccurs="0" maxOccurs="1" type="Reference"
+            <reference value="http://fhir.privacyportfolio.com/open/DigitalRights/Requests" />
+          </focus>
+          <!-- A human-readable narrative that contains the attested content of the section, 
+          used to represent the content of the resource to a human. 
+          The narrative need not encode all the structured data, 
+          but is required to contain sufficient detail to make it &quot;clinically safe&quot; 
+          for a human to just read the narrative. -->
+          <text>
+            minOccurs="0" maxOccurs="1" type="Narrative"
+            <!-- serves as a cover page template for authorizing agent to exercise a class of digital rights
+            on behalf of the dataSubject, under a specific jurisdiction, and in accordance with a standard
+            representing a privacy law, contract law, policy, or preference. -->
+            <!--  this section should satisfy recipient's requirements to route or begin processing based on content. -->
+            <div>
+      			I, [dataSubject], as a [resident] | [member] of [jurisdiction],
+      			authorize my [AGENT] to exercise my digital rights requests in accordance with [standard].
+            </div>
+          </text>
+          <!-- How the entry list was prepared - whether it is a working list that is suitable 
+          for being maintained on an ongoing basis, 
+          or if it represents a snapshot of a list of items from another source, 
+          or whether it is a prepared list where items may be marked as added, modified or deleted. -->
+          <mode>
+            minOccurs="0" maxOccurs="1" type="ListMode"
+            <!-- represents a snapshot of a list of items from another source 
+            (list of RequestItems or a Conformance resource.) -->
+            <!-- For this example the RequestItems are in the entry element of this section --> 
+          </mode>
+          <!-- Specifies the order applied to the items in the section entries. -->
+          <orderedBy>
+            minOccurs="0" maxOccurs="1" type="CodeableConcept"
+      
+          </orderedBy>
+          <!-- A reference to the actual resource from which the narrative in the section is derived. -->
+          <entry>
+            minOccurs="0" maxOccurs="unbounded" type="Reference"
+            <!-- could be one item per entry or a reference to a list -->
+      				(requestItems)
+      					(requestItem)Specific pieces of personal information that a business has collected about the consumer;(/requestItem)
+      					(requestItem)Categories of personal information it has collected about the consumer;(/requestItem)
+      					(requestItem)Categories of sources from which the personal information is collected;(/requestItem)
+      					(requestItem)Categories of personal information that the business disclosed or shared for a business purpose about the consumer;(/requestItem)
+      					(requestItem)Categories of personal information that the business sold for a business purpose about the consumer;(/requestItem)
+      					(requestItem)Categories of third parties to whom the personal information was disclosed or shared for a business purpose;(/requestItem)
+      					(requestItem)Categories of third parties to whom the personal information was sold for a business purpose;(/requestItem)
+      		      (requestItem)The business or commercial purpose for collecting personal information.(/requestItem)
+      					(requestItem)The business or commercial purpose for sharing personal information.(/requestItem)
+      					(requestItem)The business or commercial purpose for selling personal information.(/requestItem)
+      				(/requestItems)
+          </entry>
+          <!-- If the section is empty, why the list is empty. 
+          An empty section typically has some text explaining the empty reason. -->
+          <emptyReason>
+            minOccurs="0" maxOccurs="1" type="CodeableConcept"
+            
+          </emptyReason>
+          <!-- A nested sub-section within this section. -->
+          <section>
+            type="Composition.Section" minOccurs="0" maxOccurs="unbounded"
+            <!-- could be used for dataSubject's role or relationship,
+            or reference to an identityProvider or dataVaultProvider, 
+            or reference to a contract, policy, or preference -->
+          </section>
+          </xs:complexType>
+        </section>
+      	<!-- this second section contains the <controller> portion of my custom payload at the composition level -->
+      	<section>
+      		type="Composition.Section" minOccurs="0" maxOccurs="unbounded"
+      	  <xs:complexType name="Composition.Section">
+          <!-- The label for this particular section.  
+          This will be part of the rendered content for the document, and is often used to build a table of contents. -->
+          <title>IDENTITY VERIFICATION REQUEST</title>
+          <!-- A code identifying the kind of content contained within the section. 
+          This must be consistent with the section title. -->
+          <code>
+            minOccurs="0" maxOccurs="1" type="CodeableConcept"
+            <!-- todo: codes for each method of verification used for digital rights requests (opt-out, delete, etc.) -->
+          </code>
+          <!-- Identifies who is responsible for the information in this section, not necessarily who typed it in. -->
+          <author>
+            minOccurs="0" maxOccurs="unbounded" type="Reference"
+            <reference value="http://fhir.privacyportfolio.com/open/Person/d1"/>
+          </author>
+          <!-- The actual focus of the section when it is not the subject of the composition, 
+          but instead represents something or someone associated with the subject such as 
+          (for a patient subject) a spouse, parent, fetus, or donor. 
+          If not focus is specified, the focus is assumed to be focus of the parent section, or, 
+          for a section in the Composition itself, the subject of the composition. 
+          Sections with a focus SHALL only include resources where the logical subject 
+          (patient, subject, focus, etc.) matches the section focus, 
+          or the resources have no logical subject (few resources). -->
+          <focus>minOccurs="0" maxOccurs="1" type="Reference"
+            <reference value="http://fhir.privacyportfolio.com/open/Person/d1/repo/datapoints" />
+          </focus>
+          <!-- A human-readable narrative that contains the attested content of the section, 
+          used to represent the content of the resource to a human. 
+          The narrative need not encode all the structured data, 
+          but is required to contain sufficient detail to make it &quot;clinically safe&quot; 
+          for a human to just read the narrative. -->
+          <text>
+            minOccurs="0" maxOccurs="1" type="Narrative"
+            <!-- serves as a cover page template for authorizing agent to exercise a class of digital rights
+            on behalf of the dataSubject, under a specific jurisdiction, and in accordance with a standard
+            representing a privacy law, contract law, policy, or preference. -->
+            <!--  this section should satisfy recipient's requirements to verify identity based on content. -->
+            <div>
+      					I, [dataSubject], authorize my [AGENT] to grant [ORGANIZATION] permission to request
+      					matching datapoints between [ORGANIZATION]'s records and [dataSubject]'s PII repository.
+      					A single-use token is available to anonymous, unregistered entities for returning a binary value for each match submitted.
+      					Direct queries and "fuzzy matches" are available to registered entities, for returning exact matching values.
+      					The datapoints for [dataSubject] are:
+      					[section.title(dataRepo.matchingDatapoints)]
+      					(matchingDatapoint)email(/matchingDatapoint)
+      					(matchingDatapoint)name(/matchingDatapoint)
+      					(matchingDatapoint)zipcode(/matchingDatapoint)
+      					(matchingDatapoint)date(/matchingDatapoint)
+      					(matchingDatapoint)accountId(/matchingDatapoint)
+            </div>
+          </text>
+          <!-- How the entry list was prepared - whether it is a working list that is suitable 
+          for being maintained on an ongoing basis, 
+          or if it represents a snapshot of a list of items from another source, 
+          or whether it is a prepared list where items may be marked as added, modified or deleted. -->
+          <mode>
+            minOccurs="0" maxOccurs="1" type="ListMode"
+            <!-- represents a snapshot of a list of items from another source 
+            (list of RequestItems or a Conformance resource.) -->
+            <!-- For this example the matchingDatapoints are in the text narrative,
+            but the reference to the dataSubject's PIIVaultProvider is in the entry element of this section --> 
+          </mode>
+          <!-- Specifies the order applied to the items in the section entries. -->
+          <orderedBy>
+            minOccurs="0" maxOccurs="1" type="CodeableConcept"
+      
+          </orderedBy>
+          <!-- A reference to the actual resource from which the narrative in the section is derived. -->
+          <entry>
+            minOccurs="0" maxOccurs="unbounded" type="Reference"
+            <!-- could be one item per entry or a reference to a list -->
+            <reference value="http://fhir.privacyportfolio.com/open/Organization/p1/repo/datapoints" />
+          </entry>
+          <!-- If the section is empty, why the list is empty. 
+          An empty section typically has some text explaining the empty reason. -->
+          <emptyReason>
+            minOccurs="0" maxOccurs="1" type="CodeableConcept"
+            
+          </emptyReason>
+          <!-- A nested sub-section within this section. -->
+          <section>
+            type="Composition.Section" minOccurs="0" maxOccurs="unbounded"
+            <!-- could be used for controller's role or relationship,
+            or reference to a Organization Profile, as it is here. -->
+          	<controller>
+          		<role>vendor</role>
+        	  	<subsidiary></subsidiary>
+        		  <services></services>
+        		  <products></products>
+        		  <consents></consents>
+          		<policies>
+          			<policy>
+          				<type></type>
+          				<date></date>
+          			</policy>
+          			<policy>
+          				<type></type>
+          				<date></date>
+          			</policy>
+          		</policies>
+          		<tests></tests>
+          		<status></status>
+          	</controller>
+          </section>
+          </xs:complexType>
+        </section>
+      	<!-- this third section contains the <thirdPartyRole> portion of my custom payload at the composition level -->
+      	<section>
+      		type="Composition.Section" minOccurs="0" maxOccurs="unbounded"
+      	  <xs:complexType name="Composition.Section">
+          <!-- The label for this particular section.  
+          This will be part of the rendered content for the document, and is often used to build a table of contents. -->
+          <title>IDENTITY VERIFICATION REQUEST</title>
+          <!-- A code identifying the kind of content contained within the section. 
+          This must be consistent with the section title. -->
+          <code>
+            minOccurs="0" maxOccurs="1" type="CodeableConcept"
+            <!-- todo: codes for each method of verification used for digital rights requests (opt-out, delete, etc.) -->
+          </code>
+          <!-- Identifies who is responsible for the information in this section, not necessarily who typed it in. -->
+          <author>
+            minOccurs="0" maxOccurs="unbounded" type="Reference"
+            <reference value="http://fhir.privacyportfolio.com/open/Person/d1"/>
+          </author>
+          <!-- The actual focus of the section when it is not the subject of the composition, 
+          but instead represents something or someone associated with the subject such as 
+          (for a patient subject) a spouse, parent, fetus, or donor. 
+          If not focus is specified, the focus is assumed to be focus of the parent section, or, 
+          for a section in the Composition itself, the subject of the composition. 
+          Sections with a focus SHALL only include resources where the logical subject 
+          (patient, subject, focus, etc.) matches the section focus, 
+          or the resources have no logical subject (few resources). -->
+          <focus>minOccurs="0" maxOccurs="1" type="Reference"
+            <reference value="http://fhir.privacyportfolio.com/open/Person/d1/repo/datapoints" />
+          </focus>
+          <!-- A human-readable narrative that contains the attested content of the section, 
+          used to represent the content of the resource to a human. 
+          The narrative need not encode all the structured data, 
+          but is required to contain sufficient detail to make it &quot;clinically safe&quot; 
+          for a human to just read the narrative. -->
+          <text>
+            minOccurs="0" maxOccurs="1" type="Narrative"
+            <!-- serves as a cover page template for authorizing agent to exercise a class of digital rights
+            on behalf of the dataSubject, under a specific jurisdiction, and in accordance with a standard
+            representing a privacy law, contract law, policy, or preference. -->
+            <!--  this section should satisfy recipient's requirements to verify identity based on content. -->
+            <div>
+      					I, [dataSubject], authorize my [AGENT] to grant [ORGANIZATION] permission to request
+      					matching datapoints between [ORGANIZATION]'s records and [dataSubject]'s PII repository.
+      					A single-use token is available to anonymous, unregistered entities for returning a binary value for each match submitted.
+      					Direct queries and "fuzzy matches" are available to registered entities, for returning exact matching values.
+      					The datapoints for [dataSubject] are:
+      					[section.title(dataRepo.matchingDatapoints)]
+      					(matchingDatapoint)email(/matchingDatapoint)
+      					(matchingDatapoint)name(/matchingDatapoint)
+      					(matchingDatapoint)zipcode(/matchingDatapoint)
+      					(matchingDatapoint)date(/matchingDatapoint)
+      					(matchingDatapoint)accountId(/matchingDatapoint)
+            </div>
+          </text>
+          <!-- How the entry list was prepared - whether it is a working list that is suitable 
+          for being maintained on an ongoing basis, 
+          or if it represents a snapshot of a list of items from another source, 
+          or whether it is a prepared list where items may be marked as added, modified or deleted. -->
+          <mode>
+            minOccurs="0" maxOccurs="1" type="ListMode"
+            <!-- represents a snapshot of a list of items from another source 
+            (list of RequestItems or a Conformance resource.) -->
+            <!-- For this example the matchingDatapoints are in the text narrative,
+            but the reference to the dataSubject's PIIVaultProvider is in the entry element of this section --> 
+          </mode>
+          <!-- Specifies the order applied to the items in the section entries. -->
+          <orderedBy>
+            minOccurs="0" maxOccurs="1" type="CodeableConcept"
+      
+          </orderedBy>
+          <!-- A reference to the actual resource from which the narrative in the section is derived. -->
+          <entry>
+            minOccurs="0" maxOccurs="unbounded" type="Reference"
+            <!-- could be one item per entry or a reference to a list -->
+            <reference value="http://fhir.privacyportfolio.com/open/Organization/p1/repo/datapoints" />
+          </entry>
+          <!-- If the section is empty, why the list is empty. 
+          An empty section typically has some text explaining the empty reason. -->
+          <emptyReason>
+            minOccurs="0" maxOccurs="1" type="CodeableConcept"
+            
+          </emptyReason>
+          <!-- A nested sub-section within this section. -->
+          <section>
+            type="Composition.Section" minOccurs="0" maxOccurs="unbounded"
+            <!-- could be used for third party's role or relationship to dataSubject or controller,
+            or in-line reference to a Organization Profile, as it is here. -->
+          	<thirdPartyRole>
+          		<role>
+          			<type>
+          		    type="myRole" minOccurs="0" maxOccurs="unbounded"
+          				<xs:simpleType name="myRole">
+          				<xs:choice>
+          				<xs:enumeration value="processor" />
+          				<xs:enumeration value="authority" />
+          				<xs:enumeration value="mediator" />
+          				<xs:enumeration value="serviceProvider" />
+          				<xs:enumeration value="unknown" />
+          				<xs:enumeration value="agent" />
+          				<xs:enumeration value="dataBroker" />
+          				<xs:enumeration value="custodian" />
+          				</xs:choice>
+          				</xs:simpleType>
+          			</type>
+          		</role>
+          		<party>
+          			<organizationName></organizationName>
+          			<identifier></identifier>
+          			<link></link>
+          			<authorization></authorization>
+          			<tests></tests>
+          			<conformance></conformance>
+          			<riskRating></riskRating>
+          			<subsidiary></subsidiary>
+          			<services></services>
+          			<products></products>
+          			<consents></consents>
+          			<policies>
+          				<policy>
+          					<type></type>
+          					<date></date>
+          				</policy>
+          				<policy>
+          					<type></type>
+          					<date></date>
+          				</policy>
+          			</policies>
+          		</party>
+          	</thirdPartyRole>
+          </section>
+          </xs:complexType>
+        </section>
+        <!-- This fourth section is used to reference a Conformance resource,
+        which contains much more information about the standard applied: law, contract, policy or preference -->
+      	<section>
+      		type="Composition.Section" minOccurs="0" maxOccurs="unbounded"
+      	  <xs:complexType name="Composition.Section">
+          <!--  text string here as placeholder for section containing reference to CCPA Conformance  -->
+          <text>
+          minOccurs="0" maxOccurs="1" type="Narrative"
+            <div>
+              <standard>CCPA 1798.100, 1798.110, or 1798.115</standard>
+            </div>
+          </text>
+          </xs:complexType>
+        </section>
+        </xs:complexType>
+      </Composition>
+		</resource>
+		<search>
+      xs:element name="search" type="Bundle.Search" minOccurs="0" maxOccurs="1"		  
+		  <!-- Information about the search process that lead to the creation of this entry. -->
+      <xs:complexContent name="Bundle.Search">
+      <mode>
+        xs:element name="mode" minOccurs="0" maxOccurs="1" type="SearchEntryMode"
+        <!-- Why this entry is in the result set - whether it's included as a match 
+        or because of an _include requirement, or to convey information or warning information 
+        about the search process.  -->
+				<xs:complexType name="SearchEntryMode">
+					<value>xs:attribute name="value" type="SearchEntryMode-list" use="optional"</value>
+				</xs:complexType>
+				<xs:simpleType name="SearchEntryMode-list">
+					<xs:enumeration value="match" />
+					<xs:enumeration value="include" />
+					<xs:enumeration value="outcome" />
+				</xs:simpleType>
+      </mode>
+      <score>
+        xs:element name="score" minOccurs="0" maxOccurs="1" type="decimal"
+        <!-- When searching, the server's search ranking score for the entry. -->
+      </score>
+      </xs:complexContent>
+		</search>
+		<request>
+		  xs:element name="request" type="Bundle.Request" minOccurs="0" maxOccurs="1"
+		  <!-- Additional information about how this entry should be processed as part of a transaction or batch.  
+		  For history, it shows how the entry was processed to create the version contained in the entry. -->
+			<xs:complexType name="Bundle.Request">
+				<method>xs:element name="method" minOccurs="1" maxOccurs="1" type="HTTPVerb"
+        <!-- In a transaction or batch, this is the HTTP action to be executed for this entry. 
+        In a history bundle, this indicates the HTTP action that occurred. -->
+				<xs:complexType name="HTTPVerb">
+					<xs:attribute name="value" type="HTTPVerb-list" use="optional"/>
+				</xs:complexType>
+				<xs:simpleType name="HTTPVerb-list">
+					<xs:enumeration value="GET" />
+					<xs:enumeration value="HEAD" />
+					<xs:enumeration value="POST" />
+					<xs:enumeration value="PUT" />
+					<xs:enumeration value="DELETE" />
+					<xs:enumeration value="PATCH" />
+				</xs:simpleType>
+				</method>
+				<url>
+				  xs:element name="url" minOccurs="1" maxOccurs="1" type="uri"
+				  <!-- The URL for this entry, relative to the root (the address to which the request is posted).-->
+				</url>
+				<ifNoneMatch>xs:element name="ifNoneMatch" minOccurs="0" maxOccurs="1" type="string"</ifNoneMatch>
+				<ifModifiedSince>xs:element name="ifModifiedSince" minOccurs="0" maxOccurs="1" type="instant"</ifModifiedSince>
+				<ifMatch>xs:element name="ifMatch" minOccurs="0" maxOccurs="1" type="string"</ifMatch>
+				<ifNoneExist>xs:element name="ifNoneExist" minOccurs="0" maxOccurs="1" type="string"</ifNoneExist>
+			</xs:complexType>
+		</request>
+		<response>
+      xs:element name="response" type="Bundle.Response" minOccurs="0" maxOccurs="1"
+			<!-- A container for a collection of resources. -->
+			<xs:complexType name="Bundle.Response">
+  			<status>
+  			  xs:element name="status" minOccurs="1" maxOccurs="1" type="string"
+  			  <!-- The status code returned by processing this entry. 
+  			  The status SHALL start with a 3 digit HTTP code (e.g. 404) 
+  			  and may contain the standard HTTP description associated with the status code.   -->
+  			</status>
+	  		<location>
+	  		  xs:element name="location" minOccurs="0" maxOccurs="1" type="uri"
+	  		  <!-- The location header created by processing this operation, 
+	  		  populated if the operation returns a location.   -->
+	  		</location>
+		  	<etag>
+		  	  xs:element name="etag" minOccurs="0" maxOccurs="1" type="string"
+		  	  <!-- The Etag for the resource, if the operation for the entry produced a versioned resource 
+		  	  (used for Resource Metadata and Versioning and Managing Resource Contention(concurrency).   -->
+		  	</etag>
+			  <lastModified>
+			    xs:element name="lastModified" minOccurs="0" maxOccurs="1" type="instant"
+			    <!-- The date/time that the resource was modified on the server.   -->
+			  </lastModified>
+			  <outcome>
+			    xs:element name="outcome" minOccurs="0" maxOccurs="1" type="ResourceContainer"
+			    <!-- An OperationOutcome containing hints and warnings produced 
+			    as part of processing this entry in a batch or transaction.   -->
+			  </outcome>
+			</xs:complexType>		  
+		  <!-- Indicates the results of processing the corresponding 'request' entry in the batch 
+		  or transaction being responded to or what the results of an operation where when returning history. -->
+		</response>
+	  </xs:complexType>
+	</entry>
+	<signature>
+	  xs:element name="signature" minOccurs="0" maxOccurs="1" type="Signature"
+	  <!-- Digital Signature - base64 encoded. XML-DSig or a JWT.   -->
+		<xs:complexType name="Signature">
+		<type>
+			<!-- 1..* Coding Indication of the reason the entity signed the object(s) -->
+		</type>
+		<when value="[instant]"/><!-- 1..1 When the signature was created -->
+		<who>
+			<!-- 1..1 Reference(Practitioner|PractitionerRole|RelatedPerson|Patient|Device|Organization) Who signed -->
+		</who>
+		<onBehalfOf>
+			<!-- 0..1 Reference(Practitioner|PractitionerRole|RelatedPerson|Patient|Device|Organization) The party represented -->
+		</onBehalfOf>
+		<targetFormat value="[code]"/><!-- 0..1 The technical format of the signed resources -->
+		<sigFormat value="[code]"/><!-- 0..1 The technical format of the signature -->
+		<data value="[base64Binary]"/><!-- 0..1 The actual signature content (XML DigSig. JWS, picture, etc.) -->
+    </xs:complexType>
+	</signature>
+</Bundle>
