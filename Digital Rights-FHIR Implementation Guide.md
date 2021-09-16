@@ -196,6 +196,7 @@ Specialized Resources in layer 5, and Resource Contextualization in Layer 6 is w
     Flag - used to mark a DetectedIssue associated with a resource, action, or event. Example: excessively high risk rating or poor test results can be annotated on a Vendor record or used to generate a Notification. 
     
     Goal - used to address a condition or remediation, typically as part of a CarePlan. Examples: 1) reduce exposure to unauthorized data sharing; 2) hold non-responsive Vendors accountable; 3) what a remediation or control is intended to do.
+    
     GraphDefinition - typically used to define or link relationships between actors such as dataSubjects, Vendors, dataBrokers, etc. Also can be used for entity resolution of complex or shady enterprises. Includes rules for governing relationships and data sharing. Heavily used to discover unauthorized data sharing via tracking technologies and/or lax permissions.
     
     Group - used to represent analytical population sets for comparing individual members with others in the same group having common characteristics, or outside of the group.
