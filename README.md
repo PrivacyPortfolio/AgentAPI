@@ -133,3 +133,5 @@ Methodology.md - explains the steps I took in developing this AgentAPI.
 Use-case scenarios.md - narratives for common use cases.
 
 DevelopmentRoadmap.md - documents what is complete, what is planned, and what is proposed for AgentAPI.
+  
+DR-GCP-FHIR Implementation Guide.md - GOOGLE CLOUD PLATFORM - FHIR IMPLEMENTATION GUIDELINE FOR DIGITAL RIGHTS.
