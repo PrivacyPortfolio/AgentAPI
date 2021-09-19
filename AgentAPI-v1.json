@@ -1868,7 +1868,8 @@
           }
         }
       }  
-    },
+    }
+  },
   "discoveryVersion": "v1",
   "title": "Authorized Agent API",
   "servicePath": "",
@@ -1887,5 +1888,4 @@
   "parameters": {},
   "version_module": true,
   "description": "Manage Vendor Risk and govern access to personal data using the AgentAPI."
-  }
 }
