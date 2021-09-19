@@ -18,8 +18,7 @@ Operations that access data in a modality-specific data store use a request path
 
 Data Stores can be considered as catalogs containing metadata. Actual, raw data is persisted in Google Cloud Storage locations. Some API operations can also direct output from Data Stores to BigQuery destinations.
 
-This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
-----------------------------------
+**This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.**
 
 ============================
 ### Topic: Locations for FHIR Resources
@@ -47,6 +46,11 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "type": "object"
     },
 
+    "ListDatasetsResponse": {
+      "id": "ListDatasetsResponse",
+      "description": "Lists the available datasets.",
+      "type": "object"
+    },
 
 ============================
 ### Topic: FHIR Resources
@@ -58,16 +62,14 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "properties": { }
     },
 
-
-============================
-### Topic: FHIR Stores
-
     "SearchResourcesRequest": {
       "type": "object",
       "description": "Request to search the resources in the specified FHIR store.",
-      "id": "SearchResourcesRequest",
-      "properties": { }
+      "id": "SearchResourcesRequest"
     },
+
+============================
+### Topic: FHIR Stores
 
     "ListFhirStoresResponse": {
       "properties": { },
@@ -75,11 +77,13 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "description": "Lists the FHIR stores in the given dataset.",
       "type": "object"
     },
+
     "ListConsentStoresResponse": {
       "id": "ListConsentStoresResponse",
       "type": "object",
       "properties": { }
     },
+
     "ListDicomStoresResponse": {
       "type": "object",
       "properties": { },
@@ -95,6 +99,12 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
     "Hl7V2Store": {
       "description": "Represents an HL7v2 store.",
       "id": "Hl7V2Store",
+      "type": "object"
+    },
+
+    "DicomStore": {
+      "description": "Represents a DICOM store.",
+      "id": "DicomStore",
       "type": "object"
     },
 
@@ -172,6 +182,12 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "description": "OperationMetadata provides information about the operation execution. Returned in the long-running operation's metadata field."
     },
 
+    "ProgressCounter": {
+      "type": "object",
+      "description": "ProgressCounter provides counters to describe an operation's progress.",
+      "id": "ProgressCounter"
+    },
+
     "Status": {
       "id": "Status",
       "description": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).",
@@ -217,8 +233,114 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "id": "ExportDicomDataRequest"
     },
 
+    "ImportDicomDataRequest": {
+      "id": "ImportDicomDataRequest",
+      "description": "Imports data into the specified DICOM store. Returns an error if any of the files to import are not DICOM files. This API accepts duplicate DICOM instances by ignoring the newly-pushed instance. It does not overwrite.",
+      "type": "object"
+    },
+
 ============================
-### Topic: Entities
+### Topic: Messaging
+
+    "ParsedData": {
+      "description": "The content of a HL7v2 message in a structured format.",
+      "id": "ParsedData",
+      "type": "object"
+    },
+
+    "SchemaGroup": {
+      "id": "SchemaGroup",
+      "type": "object",
+      "description": "An HL7v2 logical group construct."
+    },
+
+    "Hl7SchemaConfig": {
+      "type": "object",
+      "description": "Root config message for HL7v2 schema. This contains a schema structure of groups and segments, and filters that determine which messages to apply the schema structure to.",
+      "id": "Hl7SchemaConfig"
+    },
+
+    "Empty": {
+      "type": "object",
+      "description": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } The JSON representation for `Empty` is empty JSON object `{}`.",
+      "id": "Empty"
+    },
+
+    "Field": {
+      "id": "Field",
+      "type": "object",
+      "description": "A (sub) field of a type."
+    },
+
+    "SchemaSegment": {
+      "id": "SchemaSegment",
+      "description": "An HL7v2 Segment.",
+      "type": "object"
+    },
+
+    "GroupOrSegment": {
+      "id": "GroupOrSegment",
+      "description": "Construct representing a logical group or a segment.",
+      "type": "object"
+    },
+
+    "CreateMessageRequest": {
+      "description": "Creates a new message.",
+      "type": "object",
+      "id": "CreateMessageRequest"
+    },
+
+    "SchematizedData": {
+      "type": "object",
+      "description": "The content of an HL7v2 message in a structured format as specified by a schema.",
+      "id": "SchematizedData"
+    },
+
+    "IngestMessageRequest": {
+      "description": "Ingests a message into the specified HL7v2 store.",
+      "type": "object",
+      "id": "IngestMessageRequest"
+    },
+
+    "ListMessagesResponse": {
+      "id": "ListMessagesResponse",
+      "type": "object",
+      "description": "Lists the messages in the specified HL7v2 store."
+    },
+
+    "IngestMessageResponse": {
+      "type": "object",
+      "description": "Acknowledges that a message has been ingested into the specified HL7v2 store.",
+      "id": "IngestMessageResponse"
+    },
+
+    "ParserConfig": {
+      "description": "The configuration for the parser. It determines how the server parses the messages.",
+      "id": "ParserConfig",
+      "type": "object"
+    },
+
+    "Segment": {
+      "type": "object",
+      "id": "Segment",
+      "description": "A segment in a structured format."
+    },
+
+    "HttpBody": {
+      "id": "HttpBody",
+      "type": "object",
+      "description": "Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged."
+    },
+
+    "Message": {
+      "description": "A complete HL7v2 message. See [Introduction to HL7 Standards] (https://www.hl7.org/implement/standards/index.cfm?ref=common) for details on the standard.",
+      "id": "Message",
+      "type": "object"
+    },
+
+
+============================
+### Topic: Entities, Identifiers, Roles
 
     "Entity": {
       "id": "Entity",
@@ -257,7 +379,49 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "id": "LinkedEntity"
     },
 
+    "PatientId": {
+      "description": "A patient identifier and associated type.",
+      "type": "object",
+      "id": "PatientId"
+    },
 
+    "Signature": {
+      "type": "object",
+      "description": "User signature.",
+      "id": "Signature"
+    },
+
+    "ArchiveUserDataMappingRequest": {
+      "type": "object",
+      "properties": {},
+      "description": "Archives the specified User data mapping.",
+      "id": "ArchiveUserDataMappingRequest"
+    },
+
+    "ArchiveUserDataMappingResponse": {
+      "properties": {},
+      "type": "object",
+      "id": "ArchiveUserDataMappingResponse",
+      "description": "Archives the specified User data mapping."
+    },
+
+    "Binding": {
+      "description": "Associates `members` with a `role`.",
+      "id": "Binding",
+      "type": "object"
+    },
+
+    "ListUserDataMappingsResponse": {
+      "type": "object",
+      "description": "The returned User data mappings. The maximum number of User data mappings returned is determined by the value of page_size in the ListUserDataMappingsRequest.",
+      "id": "ListUserDataMappingsResponse"
+    },
+
+    "UserDataMapping": {
+      "type": "object",
+      "description": "Maps a resource to the associated user and Attributes.",
+      "id": "UserDataMapping"
+    },
 
 ============================
 ### Topic: Consents
@@ -267,7 +431,6 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "type": "object",
       "description": "The resource names of the Consents to evaluate against, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`."
     },
-
 
     "RevokeConsentRequest": {
       "id": "RevokeConsentRequest",
@@ -289,13 +452,11 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "id": "ListConsentRevisionsResponse"
     },
 
-
     "GoogleCloudHealthcareV1ConsentPolicy": {
       "type": "object",
       "description": "Represents a user's consent in terms of the resources that can be accessed and under what conditions.",
       "id": "GoogleCloudHealthcareV1ConsentPolicy"
     },
-
 
     "ListConsentArtifactsResponse": {
       "id": "ListConsentArtifactsResponse",
@@ -339,6 +500,23 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "description": "The detailed evaluation of a particular Consent."
     },
 
+    "AttributeDefinition": {
+      "id": "AttributeDefinition",
+      "type": "object",
+      "description": "A client-defined consent attribute."
+    },
+
+    "QueryAccessibleDataRequest": {
+      "type": "object",
+      "id": "QueryAccessibleDataRequest",
+      "description": "Queries all data_ids that are consented for a given use in the given consent store and writes them to a specified destination. The returned Operation includes a progress counter for the number of User data mappings processed. Errors are logged to Cloud Logging (see [Viewing error logs in Cloud Logging] (https://cloud.google.com/healthcare/docs/how-tos/logging) and [QueryAccessibleData] for a sample log entry)."
+    },
+
+    "Result": {
+      "type": "object",
+      "id": "Result",
+      "description": "The consent evaluation result for a single `data_id`."
+    },
 
 ============================
 ### Topic: GCP Security
@@ -349,7 +527,6 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "description": "Request message for `TestIamPermissions` method.",
       "type": "object"
     },
-
 
     "CheckDataAccessRequest": {
       "id": "CheckDataAccessRequest",
@@ -378,7 +555,6 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
 ============================
 ### Topic: De-Identification
 
-
     "DeidentifyConfig": {
       "properties": {  },
       "id": "DeidentifyConfig",
@@ -393,6 +569,11 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "description": "Contains a summary of the Deidentify operation."
     },
 
+    "InfoTypeTransformation": {
+      "id": "InfoTypeTransformation",
+      "description": "A transformation to apply to text that is identified as a specific info_type.",
+      "type": "object"
+    },
 
     "CharacterMaskConfig": {
       "id": "CharacterMaskConfig",
@@ -401,13 +582,11 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "properties": {  }
     },
 
-
     "CryptoHashConfig": {
       "id": "CryptoHashConfig",
       "description": "Pseudonymization method that generates surrogates via cryptographic hashing. Uses SHA-256. Outputs a base64-encoded representation of the hashed output (for example, `L7k0BHmF1ha5U3NfGykjro4xWi1MPVQPjhMAZbSV9mM=`).",
       "type": "object"
     },
-
 
     "DeidentifyDicomStoreRequest": {
       "type": "object",
@@ -415,13 +594,11 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "id": "DeidentifyDicomStoreRequest"
     },
 
-
     "DeidentifyDatasetRequest": {
       "type": "object",
       "description": "Redacts identifying information from the specified dataset.",
       "id": "DeidentifyDatasetRequest"
     },
-
 
     "DicomConfig": {
       "description": "Specifies the parameters needed for de-identification of DICOM stores.",
@@ -434,6 +611,30 @@ This Implementation Guide is based on: GCP-FHIR REST API Discovery.json.
       "type": "object",
       "id": "FhirConfig",
       "description": "Specifies how to handle de-identification of a FHIR store."
+    },
+
+    "ImageConfig": {
+      "id": "ImageConfig",
+      "description": "Specifies how to handle de-identification of image pixels.",
+      "type": "object"
+    },
+
+    "RedactConfig": {
+      "description": "Define how to redact sensitive values. Default behaviour is erase. For example, \"My name is Jane.\" becomes \"My name is .\"",
+      "id": "RedactConfig",
+      "type": "object"
+    },
+
+    "FieldMetadata": {
+      "type": "object",
+      "description": "Specifies FHIR paths to match, and how to handle de-identification of matching fields.",
+      "id": "FieldMetadata"
+    },
+
+    "ReplaceWithInfoTypeConfig": {
+      "type": "object",
+      "id": "ReplaceWithInfoTypeConfig",
+      "description": "When using the INSPECT_AND_TRANSFORM action, each match is replaced with the name of the info_type. For example, \"My name is Jane\" becomes \"My name is [PERSON_NAME].\" The TRANSFORM action is equivalent to redacting."
     },
 
 ============================
