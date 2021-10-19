@@ -1,12 +1,24 @@
 # AgentAPI
 draft specification
 
-Help develop national and global standard APIs for Third-Party Privacy Services! 
+Help develop national and global standard APIs for Third-Party Agent Services! 
 
-Expand integration between Consent Management/DSAR platform providers, Privacy Agents, Enforcement Authorities, Businesses, and individual consumers/data subjects. 
-Automate all privacy rights requests to improve data quality and integrity. 
-Make authentication and authorization services accessible to everyone. 
-This API, designed for individual consumers and their agents, will benefit all stakeholders.
+Agents do things on your behalf.
+Agents represent actors, athletes, and artists by promoting them and negotiating contracts.
+Agents represent businesses, government agencies, and non-profit organizations as lobbyists, evangelists, and industry representatives.
+Agents also serve digital services, such as your web browser, or daemons that monitor events and collect information.
+Some apps are Agents, consolidating your bills and bank accounts, monitoring your personal health information, or tracking the location of your family and friends.
+
+One common characteristic of agents is that they all need:
+1) authorization from the parties they represent;
+2) personal data of the parties they respresent;
+3) a way to share personal data with other parties.
+
+Therefore, authorized agents are uniquely positioned to exercise privacy rights and obligations on behalf of the people or entities they represent.
+
+This AgentAPI, is designed for use by individual consumers and their agents, or by organizational entities and their agents.
+It's time we had some standards for third-party agents on the consumer side and the business side!
+Currently, agents representing individuals or organizations are not being held accountable for their behavior, and this poses a risk to all stakeholders -- especially for agents' credibility. This AgentAPI is designed to help solve this dilemma.  
 
 Specifications for this API are derived from:
 
